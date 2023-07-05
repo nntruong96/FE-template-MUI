@@ -39,7 +39,7 @@ function ResponsiveDrawer(props) {
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             background: '#292D32',
-            padding: '14px',
+            padding: '24px',
           },
         }}
       >

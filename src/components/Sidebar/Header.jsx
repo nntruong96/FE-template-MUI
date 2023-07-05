@@ -6,7 +6,8 @@ import AddIcon from '@mui/icons-material/Add';
 import logoTextWhite from 'images/logoTextWhite.png';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
-
+import { Link } from 'react-router-dom';
+import { ROUTES } from 'routes/AppRoute';
 const Header = ({ isMiniSidebar, toggleMiniSidebar }) => {
   const isMobileScreen = useMobileScreen();
   const onMenuButtonclick = () => {
@@ -21,7 +22,7 @@ const Header = ({ isMiniSidebar, toggleMiniSidebar }) => {
       }}
     >
       <Box justifyContent="space-between" display="flex" alignItems="center">
-        {!isMiniSidebar ? (
+        {!isMiniSidebar || isMobileScreen ? (
           <Box
             sx={{
               width: '150px',
@@ -73,10 +74,10 @@ const Header = ({ isMiniSidebar, toggleMiniSidebar }) => {
         )}
       </Box>
 
-      <Button variant="contained">
+      <Button variant="contained" component={Link} to={ROUTES.submitNew}>
         <AddIcon />
 
-        {isMiniSidebar ? null : 'New Submit'}
+        {!isMiniSidebar || isMobileScreen ? 'New Submit' : null}
       </Button>
     </Box>
   );

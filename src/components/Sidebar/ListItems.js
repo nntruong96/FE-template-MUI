@@ -12,7 +12,7 @@ import AccountButton from 'components/AccountButton';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import ListItem from './ListItem';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import { ROUTES } from 'routes/AppRoute';
 import { useLocation } from 'react-router';
 function ListItems(props) {
   const { isMiniSidebar } = props;
@@ -23,31 +23,31 @@ function ListItems(props) {
       primary: 'Overview',
       onClick: () => {},
       icon: GridViewIcon,
-      route: '',
+      route: ROUTES.main,
     },
     {
       primary: 'Sustainability Data',
       onClick: () => {},
       icon: DescriptionOutlinedIcon,
-      route: 'sustainability',
+      route: ROUTES.sustainability,
     },
     {
       primary: 'Reports',
       onClick: () => {},
       icon: InsertChartOutlinedIcon,
-      route: 'reports',
+      route: ROUTES.reports,
     },
     {
       primary: 'Airline Rating',
       onClick: () => {},
       icon: TrendingUpIcon,
-      route: 'airline-rating',
+      route: ROUTES.airlineRating,
     },
     {
       primary: 'Users',
       onClick: () => {},
       icon: GroupOutlinedIcon,
-      route: 'users',
+      route: ROUTES.users,
     },
   ];
   const ITEMS2 = [
@@ -56,13 +56,13 @@ function ListItems(props) {
       secondary: '10',
       onClick: () => {},
       icon: NotificationsNoneOutlinedIcon,
-      route: 'notifications',
+      route: ROUTES.notifications,
     },
     {
       primary: 'Settings',
       onClick: () => {},
       icon: SettingsOutlinedIcon,
-      route: 'settings',
+      route: ROUTES.settings,
     },
   ];
   return (

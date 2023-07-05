@@ -19,13 +19,10 @@ import {
   Stack,
   IconButton,
   TextField,
-  Menu,
 } from '@mui/material';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import GetAppIcon from '@mui/icons-material/GetApp';
-import dayjs from 'dayjs';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -47,31 +44,54 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const STATUS = { '-1': 'Rejected', 0: 'Pending review', 1: 'Verified' };
-function createData(name, subbmitedBy, createdAt, lastUpdated, status) {
+const RATING = [
+  {
+    label: 'Blue',
+    icon: '',
+  },
+  {
+    label: 'Bronze',
+    icon: '',
+  },
+  {
+    label: 'Silver',
+    icon: '',
+  },
+  {
+    label: 'Gold',
+    icon: '',
+  },
+  {
+    label: 'Platinum',
+    icon: '',
+  },
+  {
+    label: 'Diamond',
+    icon: '',
+  },
+];
+function createData(name, score, rating) {
   return {
     name,
-    subbmitedBy,
-    createdAt,
-    lastUpdated,
-    status,
+    score,
+    rating,
   };
 }
 
 const rows = [
-  createData('Cupcake', 'Olivia Rhye', Date.now(), Date.now(), 0),
-  createData('Donut', 'Phoenix Baker', Date.now(), Date.now(), 1),
-  createData('Eclair', 'Lana Steiner', Date.now(), Date.now(), -1),
-  createData('Frozen yoghurt', 'Demi Wilkinson', Date.now(), Date.now(), -1),
-  createData('Gingerbread', 'Drew Cano', Date.now(), Date.now(), 0),
-  createData('Honeycomb', 'Olivia Rhye', Date.now(), Date.now(), 1),
-  createData('Ice cream sandwich', 'Phoenix Baker', Date.now(), Date.now(), 1),
-  createData('Jelly Bean', 'Lana Steiner', Date.now(), Date.now(), 0),
-  createData('KitKat', 'Phoenix Baker', Date.now(), Date.now(), 1),
-  createData('Lollipop', 'Demi Wilkinson', Date.now(), Date.now(), -1),
-  createData('Marshmallow', 'Olivia Rhye', Date.now(), Date.now(), 1),
-  createData('Nougat', 'Lana Steiner', Date.now(), Date.now(), 1),
-  createData('Oreo', 'Phoenix Baker', Date.now(), Date.now(), 1),
+  createData('Bambo', 21, 0),
+  createData('Vietname airline', 10, 1),
+  createData('American Airlines', 32, 4),
+  createData('Alaska Air Group', 42, 2),
+  createData('Bambo', 44, 0),
+  createData('Alaska Air Group', 55, 1),
+  createData('Alaska Air Group', 23, 1),
+  createData('American Airlines', 45, 0),
+  createData('Alaska Air Group', 67, 1),
+  createData('Bambo', 88, 3),
+  createData('Vietname airline', 12, 1),
+  createData('American Airlines', 56, 1),
+  createData('Alaska Air Group', 67, 1),
 ];
 
 const headCells = [
@@ -79,31 +99,18 @@ const headCells = [
     id: 'name',
     numeric: false,
     disablePadding: true,
-    label: 'Data Submit',
+    label: 'Airline',
   },
   {
-    id: 'subbmitedBy',
+    id: 'score',
     numeric: false,
     disablePadding: false,
-    label: 'Submitted by',
+    label: 'Aggregate Score',
   },
   {
-    id: 'createdAt',
-    numeric: false,
+    id: 'rating',
     disablePadding: false,
-    label: 'Submitted at',
-  },
-  {
-    id: 'lastUpdated',
-    numeric: false,
-    disablePadding: false,
-    label: 'Last updated',
-  },
-  {
-    id: 'status',
-    numeric: false,
-    disablePadding: false,
-    label: 'Status',
+    label: 'Rating',
   },
 ];
 
@@ -145,66 +152,8 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-function DateFromTo({ fromDate, toDate, onChangeFromDate, onChangeToDate }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  return (
-    <Stack>
-      <Stack
-        direction="row"
-        onClick={handleClick}
-        sx={{
-          borderRadius: '8px',
-          border: '1px solid rgba(0, 0, 0, 0.10)',
-          height: '48px',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '4px 12px',
-          borderColor: '',
-        }}
-      >
-        <CalendarMonthIcon sx={{ color: 'rgba(0, 0, 0, 0.65)', mr: '12px' }} />
-        <Typography color="textSecondary">Submitted at:</Typography>
-        <Typography color="textPrimary" fontWeight="600" ml="4px">
-          {dayjs(fromDate).format('MMM DD, YYYY')} - {dayjs(toDate).format('MMM DD, YYYY')}
-        </Typography>
-      </Stack>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <Stack direction="row">
-          <DateCalendar
-            defaultValue={dayjs(fromDate)}
-            label="From"
-            onChange={(newValue) => onChangeFromDate(newValue)}
-          />
-          <DateCalendar defaultValue={dayjs(toDate)} label="To" onChange={(newValue) => onChangeToDate(newValue)} />
-        </Stack>
-      </Menu>
-    </Stack>
-  );
-}
-DateFromTo.propTypes = {
-  fromDate: PropTypes.number,
-  toDate: PropTypes.number,
-  onChangeFromDate: PropTypes.func.isRequired,
-  onChangeToDate: PropTypes.func.isRequired,
-};
 function EnhancedTableToolbar(props) {
-  const { numSelected, fromDate, toDate, onChangeFromDate, onChangeToDate } = props;
+  const { numSelected } = props;
 
   return (
     <Toolbar
@@ -221,17 +170,11 @@ function EnhancedTableToolbar(props) {
           {numSelected} selected
         </Typography>
       ) : (
-        <Stack direction="row" sx={{ width: '100%' }}>
+        <Stack direction="row" sx={{ width: '100%', flexWrap: 'wrap' }}>
           <Typography sx={{ flex: '1', fontWeight: 'bold' }} variant="h6" id="tableTitle" component="div">
-            Sustainability Data
+            Airline Sustainability Ratings
           </Typography>
 
-          <DateFromTo
-            fromDate={fromDate}
-            toDate={toDate}
-            onChangeFromDate={onChangeFromDate}
-            onChangeToDate={onChangeToDate}
-          />
           <TextField placeholder="Search..." sx={{ ml: '12px' }} />
         </Stack>
       )}
@@ -256,20 +199,13 @@ function EnhancedTableToolbar(props) {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
-  fromDate: PropTypes.number,
-  toDate: PropTypes.number,
-  onChangeFromDate: PropTypes.func,
-  onChangeToDate: PropTypes.func,
 };
 
 export default function EnhancedTable() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [date, setDate] = React.useState({
-    fromDate: Date.now(),
-    toDate: Date.now(),
-  });
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.name);
@@ -319,16 +255,7 @@ export default function EnhancedTable() {
     <Container>
       <Box sx={{ width: '100%' }}>
         <Paper sx={{ width: '100%', mb: 2 }}>
-          <EnhancedTableToolbar
-            numSelected={selected.length}
-            {...date}
-            onChangeFromDate={(value) => {
-              setDate({ ...date, fromDate: value });
-            }}
-            onChangeToDate={(value) => {
-              setDate({ ...date, toDate: value });
-            }}
-          />
+          <EnhancedTableToolbar numSelected={selected.length} />
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'medium'}>
               <EnhancedTableHead
@@ -364,10 +291,8 @@ export default function EnhancedTable() {
                       <StyledTableCell component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </StyledTableCell>
-                      <StyledTableCell align="left">{row.subbmitedBy}</StyledTableCell>
-                      <StyledTableCell align="left">{dayjs(row.createdAt).format('MMM DD, YYYY')}</StyledTableCell>
-                      <StyledTableCell align="left">{dayjs(row.lastUpdated).format('MMM DD, YYYY')}</StyledTableCell>
-                      <StyledTableCell align="left">{STATUS[row.status]}</StyledTableCell>
+                      <StyledTableCell align="left">{row.score}</StyledTableCell>
+                      <StyledTableCell align="left">{RATING[row.rating].label}</StyledTableCell>
                     </StyledTableRow>
                   );
                 })}
